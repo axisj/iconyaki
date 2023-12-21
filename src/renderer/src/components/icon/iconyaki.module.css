@@ -1,0 +1,23 @@
+.iconyaki {
+  display: inline-flex;
+  align-items: center;
+  color: inherit;
+  font-style: normal;
+  line-height: 0;
+  text-align: center;
+  text-transform: none;
+  vertical-align: -0.125em;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+.iconyaki svg {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  line-height: 1;
+}
+.iconyaki svg path {
+  stroke: currentColor;
+  fill: currentColor;
+}
