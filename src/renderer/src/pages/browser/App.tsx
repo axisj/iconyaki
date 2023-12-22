@@ -8,6 +8,7 @@ import { IconBin } from "../../components/icon";
 import Icon from "../../iconyaki-react/IconYaki";
 import { Button, Form, Popconfirm, Select, Space } from "antd";
 import electronAPI from "../../util/electronAPI";
+import { useEffect } from "react";
 
 interface Props {}
 
@@ -18,14 +19,14 @@ export default function App({}: Props) {
 
   const [form] = Form.useForm();
 
-  const { icons, getIcons, loading } = useIconsData(currentProject);
+  const { icons, getIcons, loading } = useIconsData(currentProject?.value);
 
   const handleDelete = React.useCallback(
     async (id: string) => {
       if (currentProject === undefined) return;
       try {
         await service.deleteIcons({
-          projectName: currentProject,
+          projectName: currentProject.value,
           id
         });
         await getIcons();
@@ -41,7 +42,7 @@ export default function App({}: Props) {
     try {
       const path = await electronAPI.openFolder();
       await service.exportReactIcons({
-        projectName: currentProject,
+        projectName: currentProject.value,
         targetPath: path
       });
       electronAPI.openPath(path);
@@ -57,12 +58,12 @@ export default function App({}: Props) {
           <Form form={form} layout={"inline"}>
             <Form.Item label={"Project"}>
               <Select
-                options={projects}
-                value={currentProject}
+                options={projects ?? []}
+                value={currentProject?.value}
                 onChange={(value) => {
                   setCurrentProject(value);
                 }}
-                style={{ minWidth: 100 }}
+                style={{ minWidth: 200 }}
               />
             </Form.Item>
           </Form>
@@ -79,7 +80,7 @@ export default function App({}: Props) {
           {icons.map((icon, key) => {
             const IconPreview = Icon({
               iconStr: icon.svgBody,
-              viewBox: "0 0 24 24"
+              viewBox: icon.viewBox
             });
             return (
               <IconCard key={key}>

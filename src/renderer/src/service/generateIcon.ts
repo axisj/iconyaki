@@ -6,10 +6,16 @@ import electronAPI from "../util/electronAPI";
 export interface GenerateIconProps {
   fileName: string;
   contents: string;
-  projectName?: string;
+  projectName: string;
+  prefix: string;
 }
 
-export const generateIcon = async ({ fileName, contents, projectName }: GenerateIconProps) => {
+export const generateIcon = async ({
+  fileName,
+  contents,
+  projectName,
+  prefix
+}: GenerateIconProps) => {
   if (!projectName) {
     throw new Error("projectName is required");
   }
@@ -18,7 +24,7 @@ export const generateIcon = async ({ fileName, contents, projectName }: Generate
   const data = await jsonRepository.read();
 
   const _fileName = fileName.replace(/\.svg$/, "");
-  const componentName = pascalCase(projectName + "_" + _fileName);
+  const componentName = pascalCase(prefix + "_" + _fileName);
 
   const jsonContents = await electronAPI.parseXml2Json(contents);
 

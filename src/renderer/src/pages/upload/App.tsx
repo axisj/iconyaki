@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import styled from "@emotion/styled";
 import { FileDto } from "../../types";
 import service from "../../service";
@@ -91,7 +91,8 @@ export default function App({ accept = "image/svg+xml" }: Props) {
           await service.generateIcon({
             fileName: file.fileName,
             contents: file.rawContents,
-            projectName: currentProject
+            projectName: currentProject.value,
+            prefix: currentProject.prefix
           });
         }
       }
@@ -104,30 +105,11 @@ export default function App({ accept = "image/svg+xml" }: Props) {
     }
   }, [currentProject, messageApi, navigate, uploadedFiles]);
 
-  const addItem = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
-    e.preventDefault();
-
-    if (!name) {
-      messageApi.error("Please enter 'Project Name'");
-      return;
-    }
-
-    setProjects([
-      ...(projects ?? []),
-      {
-        label: name ?? "",
-        value: name ?? ""
-      }
-    ]);
-    setCurrentProject(name);
-    form.setFieldValue("project", name);
-    setName("");
-    form.validateFields(["project"]);
-
-    setTimeout(() => {
-      inputRef.current?.focus();
-    }, 0);
-  };
+  useEffect(() => {
+    form.setFieldsValue({
+      project: currentProject?.value
+    });
+  }, [currentProject?.value, form]);
 
   return (
     <Container>
@@ -154,7 +136,7 @@ export default function App({ accept = "image/svg+xml" }: Props) {
               </MetaInfos>
 
               <Button size={"small"} danger onClick={() => removeFile(key)}>
-                삭제
+                Delete
               </Button>
             </UploadedFile>
           ))}
@@ -190,9 +172,14 @@ export default function App({ accept = "image/svg+xml" }: Props) {
                   required: true
                 }
               ]}
-              initialValue={currentProject}
             >
-              <Select options={projects} style={{ minWidth: 100 }} />
+              <Select
+                options={projects ?? []}
+                onChange={(value) => {
+                  setCurrentProject(value);
+                }}
+                style={{ minWidth: 200 }}
+              />
             </Form.Item>
 
             <Button

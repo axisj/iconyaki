@@ -1,9 +1,8 @@
 import * as React from "react";
 import styled from "@emotion/styled";
-import { Button, Divider, Drawer, Empty, Form, Input, InputRef, Popconfirm, Space } from "antd";
+import { Button, Divider, Drawer, Empty, Form, Input, Popconfirm } from "antd";
 import { useAppStore } from "../store/useAppStore";
 import { IconBin } from "./icon";
-import { useRef, useState } from "react";
 import { SMixinFlexColumn, SMixinFlexRow } from "../styles/emotion";
 import { alertDialog } from "./dialogs";
 
@@ -15,11 +14,13 @@ export function SettingDrawer({}: Props) {
   const projects = useAppStore((s) => s.projects);
   const setProjects = useAppStore((s) => s.setProjects);
   const setCurrentProject = useAppStore((s) => s.setCurrentProject);
+  const currentProject = useAppStore((s) => s.currentProject);
 
   const [form] = Form.useForm();
 
   const handleAdd = React.useCallback(async () => {
     const project = form.getFieldValue("project");
+    const prefix = form.getFieldValue("prefix");
 
     if ((projects ?? []).find((p) => p.value === project)) {
       await alertDialog({
@@ -33,20 +34,27 @@ export function SettingDrawer({}: Props) {
       ...(projects ?? []),
       {
         label: project,
-        value: project
+        value: project,
+        prefix: prefix
       }
     ]);
     if (!projects || projects.length === 0) {
       setCurrentProject(project);
     }
-    form.setFieldValue("project", "");
+    form.setFieldsValue({
+      project: "",
+      prefix: ""
+    });
   }, [form, projects, setCurrentProject, setProjects]);
 
   const handleDel = React.useCallback(
     async (project: string) => {
       setProjects([...(projects ?? []).filter((p) => p.value !== project)]);
+      if (project === currentProject?.value) {
+        setCurrentProject(undefined);
+      }
     },
-    [projects, setProjects]
+    [currentProject, projects, setCurrentProject, setProjects]
   );
 
   return (
@@ -58,22 +66,21 @@ export function SettingDrawer({}: Props) {
       }}
       open={openSettings}
     >
-      <p style={{ marginBottom: 16, lineHeight: 1.8 }}>
-        Use the project name as the prefix for the icon. <br />
-        ex) project name: test {"=>"} TestAdd.tsx
-      </p>
       <LegendForm>
         <legend>Projects</legend>
         <NewProject>
-          <Form form={form} onFinish={handleAdd}>
-            <Space.Compact block>
-              <Form.Item name={"project"} rules={[{ required: true }]} style={{ margin: 0 }}>
-                <Input placeholder={"project name"} />
-              </Form.Item>
+          <Form form={form} layout={"vertical"} onFinish={handleAdd}>
+            <Form.Item label={"Project Name"} name={"project"} rules={[{ required: true }]}>
+              <Input placeholder={"project name"} />
+            </Form.Item>
+            <Form.Item label={"Icon prefix"} name={"prefix"} rules={[{ required: true }]}>
+              <Input placeholder={"Icon Prefix Name"} />
+            </Form.Item>
+            <Form.Item>
               <Button type="primary" htmlType={"submit"}>
                 Add
               </Button>
-            </Space.Compact>
+            </Form.Item>
           </Form>
         </NewProject>
         <Divider style={{ margin: "12px 0" }} />
@@ -81,7 +88,9 @@ export function SettingDrawer({}: Props) {
           {projects?.map((project) => {
             return (
               <Project key={project.value}>
-                <b>{project.label}</b>
+                <b>
+                  {project.label} / {project.prefix}
+                </b>
 
                 <Popconfirm
                   title={"Are sure want delete?"}

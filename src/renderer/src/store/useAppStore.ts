@@ -6,13 +6,14 @@ import { getPersistSerializer } from "./getPersistSerializer";
 interface Project {
   label: string;
   value: string;
+  prefix: string;
 }
 
 export interface AppModel {
   loaded: boolean;
   width: number;
   height: number;
-  currentProject?: string;
+  currentProject?: Project;
   projects?: Project[];
   openSettings: boolean;
 }
@@ -21,7 +22,7 @@ export interface AppActions {
   setLoaded: (loaded: boolean) => void;
   setWidthHeight: (width: number, height: number) => void;
   setProjects: (projects: Project[]) => void;
-  setCurrentProject: (project?: string) => void;
+  setCurrentProject: (value?: string) => void;
   setOpenSettings: (open: boolean) => void;
 }
 
@@ -40,7 +41,8 @@ const getAppStoreActions: StoreActions<AppModel & AppActions, AppActions> = (set
   setProjects: (projects) => {
     set({ projects });
   },
-  setCurrentProject: (project) => {
+  setCurrentProject: (value) => {
+    const project = get().projects?.find((p) => p.value === value);
     set({ currentProject: project });
   },
   setOpenSettings: (open) => set({ openSettings: open })
