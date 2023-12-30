@@ -3,7 +3,8 @@ import { Route, Routes } from "react-router-dom";
 import { Layout } from "../pages/Layout";
 
 const Error404 = React.lazy(() => import("../pages/error/Error404"));
-const Browser = React.lazy(() => import("../pages/browser/App"));
+// const Browser = React.lazy(() => import("../pages/browser/App"));
+const Browser = React.lazy(() => import("../iconyaki-react/Browser"));
 const Upload = React.lazy(() => import("../pages/upload/App"));
 
 function PageRoute() {

@@ -1,10 +1,12 @@
 import * as fs from "fs";
 
-const dirs = fs.readdirSync("src/renderer/src/iconyaki-react");
+const dirs = fs.readdirSync("src/renderer/src/iconyaki-react", { withFileTypes: true });
 
 const raw = [];
 dirs.forEach((dir) => {
-  const contents = fs.readFileSync("src/renderer/src/iconyaki-react/" + dir, "utf-8");
+  if (dir.isDirectory()) return;
+
+  const contents = fs.readFileSync("src/renderer/src/iconyaki-react/" + dir.name, "utf-8");
   raw.push({
     fileName: dir,
     contents
