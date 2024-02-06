@@ -18,10 +18,10 @@
   line-height: 1;
 }
 
-.iconyaki svg path [fill="#000000"], .iconyaki svg path [fill="black"] {
+.iconyaki svg path[fill="#000000"], .iconyaki svg path[fill="black"] {
   fill: currentColor;
 }
 
-.iconyaki svg path [stroke="#000000"], .iconyaki svg path [stroke="black"] {
+.iconyaki svg path[stroke="#000000"], .iconyaki svg path[stroke="black"] {
   stroke: currentColor;
 }

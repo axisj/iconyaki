@@ -45,9 +45,9 @@ export default function App({ accept = "image/svg+xml" }: Props) {
       <br />
       <br />
       위와 같이 svg파일을 생성하면
-      {'fill="#000000" 또는 stroke="#000000"'} 이 사용된 path는 iconyaki.module.css 파일에 선언된
-      스타일에 따라. currentColor로 색상이 적용됩니다. 만일 #000000값이 아니라면 고유의 색상이
-      적용됩니다.
+      {'fill="#000000", fill="black" 또는 stroke="#000000", stroke="black"'} 이 사용된 path는
+      iconyaki.module.css 파일에 선언된 스타일에 따라. currentColor로 색상이 적용됩니다. 만일
+      #000000이나 black값이 아니라면 고유의 색상이 적용됩니다.
     </Container>
   );
 }
