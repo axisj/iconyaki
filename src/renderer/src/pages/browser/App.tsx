@@ -68,7 +68,6 @@ export default function App({}: Props) {
             </Form.Item>
           </Form>
         </div>
-
         <Space>
           <Button type={"primary"} onClick={handleExport} disabled={!currentProject}>
             Export
