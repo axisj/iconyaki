@@ -8,7 +8,7 @@ dirs.forEach((dir) => {
 
   const contents = fs.readFileSync("src/renderer/src/iconyaki-react/" + dir.name, "utf-8");
   raw.push({
-    fileName: dir,
+    fileName: dir.name,
     contents
   });
 });

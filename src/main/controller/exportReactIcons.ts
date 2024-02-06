@@ -1,7 +1,7 @@
-import { getReactTemplate } from "../tmpl/iconTemplate";
 import fs from "fs";
 import { writeFile } from "fs/promises";
 import files from "../tmpl/files.json";
+import { getReactTemplate } from "../tmpl/iconTemplate";
 
 export interface IconyakiIcon {
   id: string;
