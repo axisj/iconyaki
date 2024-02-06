@@ -4,7 +4,7 @@ import styled from "@emotion/styled";
 import { FileDto } from "../../types";
 import service from "../../service";
 import { useAppStore } from "../../store/useAppStore";
-import { Button, Divider, Form, Input, InputRef, message, Select, Space } from "antd";
+import { Alert, Button, Divider, Form, Input, InputRef, message, Select, Space } from "antd";
 import { SMixinFlexColumn, SMixinFlexRow } from "../../styles/emotion";
 import { dangerouslySetInnerHTML } from "../../util/dangerouslySetInnerHTML";
 import { toByte } from "../../util/toByte";

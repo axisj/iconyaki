@@ -17,7 +17,11 @@
   height: 1em;
   line-height: 1;
 }
-.iconyaki svg path {
-  stroke: currentColor;
+
+.iconyaki svg path [fill="#000000"] {
   fill: currentColor;
+}
+
+.iconyaki svg path [stroke="#000000"] {
+  stroke: currentColor;
 }

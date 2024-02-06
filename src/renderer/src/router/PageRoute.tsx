@@ -6,6 +6,7 @@ const Error404 = React.lazy(() => import("../pages/error/Error404"));
 // const Browser = React.lazy(() => import("../pages/browser/App"));
 const Browser = React.lazy(() => import("../iconyaki-react/Browser"));
 const Upload = React.lazy(() => import("../pages/upload/App"));
+const Guide = React.lazy(() => import("../pages/guide/App"));
 
 function PageRoute() {
   React.useEffect(() => {}, []);
@@ -15,7 +16,7 @@ function PageRoute() {
       <Route element={<Layout />}>
         <Route path={"/"} element={<Browser />} />
         <Route path={"/upload"} element={<Upload />} />
-        <Route path={"*"} element={<Browser />} />
+        <Route path={"/guide"} element={<Guide />} />
       </Route>
     </Routes>
   );

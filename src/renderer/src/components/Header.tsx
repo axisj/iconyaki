@@ -19,6 +19,10 @@ const itmes: MenuProps["items"] = [
   {
     label: "Upload",
     key: "/upload"
+  },
+  {
+    label: "Guide",
+    key: "/guide"
   }
 ];
 
@@ -41,6 +45,9 @@ export function Header({}: Props) {
       case "/upload": {
         return ["/upload"];
       }
+      case "/guide": {
+        return ["/guide"];
+      }
       case "/":
       default: {
         return ["/"];
@@ -62,7 +69,7 @@ export function Header({}: Props) {
         />
       )}
       <Container>
-        <div>
+        <div style={{ flex: 1 }}>
           <Menu mode={"horizontal"} items={itmes} selectedKeys={selectedKeys} onClick={onClick} />
         </div>
         <ConfigHandle onClick={() => setOpenSettings(!openSettings)}>
