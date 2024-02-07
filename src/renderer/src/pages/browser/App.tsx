@@ -164,7 +164,8 @@ const IconMeta = styled.div`
   ${SMixinFlexColumn("center", "center")};
   flex: none;
   font-size: 13px;
-  padding: 5px 0;
+  padding: 5px;
+  word-break: break-all;
 `;
 const Toolbar = styled.div`
   ${SMixinFlexRow("space-between", "center")};

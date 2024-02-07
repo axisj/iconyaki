@@ -1,20 +1,13 @@
 import styled from "@emotion/styled";
-import { Space } from "antd";
-import Icon from "./IconYaki";
 import * as React from "react";
-import { SMixinFlexColumn, SMixinFlexRow } from "../styles/emotion";
-
 import icons from "./data.json";
+import Icon from "./IconYaki";
 
 interface Props {}
 
 export default function Browser({}: Props) {
   return (
     <Container>
-      <Toolbar>
-        <div></div>
-        <Space></Space>
-      </Toolbar>
       <IconCardWrap>
         <IconList>
           {icons.map((icon, key) => {
@@ -39,7 +32,11 @@ export default function Browser({}: Props) {
 }
 
 const Container = styled.div`
-  ${SMixinFlexColumn("stretch", "stretch")};
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  justify-content: stretch;
+  align-items: stretch;
   flex: 1;
   overflow: hidden;
 `;
@@ -57,7 +54,11 @@ const IconList = styled.div`
 `;
 
 const IconCard = styled.div`
-  ${SMixinFlexColumn("stretch", "stretch")};
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  justify-content: stretch;
+  align-items: stretch;
   border: 1px solid #ccc;
   border-radius: 8px;
   background: #fff;
@@ -80,28 +81,34 @@ const IconCard = styled.div`
 
   &:hover {
     .tools {
-      ${SMixinFlexRow("flex-end", "center")};
+      display: flex;
+      flex-wrap: nowrap;
+      flex-direction: row;
+      justify-content: flex-end;
+      align-items: center;
+
       gap: 3px;
     }
   }
 `;
 const IconWrap = styled.div`
-  ${SMixinFlexColumn("center", "center")};
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   padding: 16px;
   border-bottom: 1px solid var(--border-color);
   font-size: 30px;
   flex: 1;
 `;
 const IconMeta = styled.div`
-  ${SMixinFlexColumn("center", "center")};
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   flex: none;
   font-size: 13px;
   padding: 5px 0;
-`;
-const Toolbar = styled.div`
-  ${SMixinFlexRow("space-between", "center")};
-  flex: none;
-  padding: 8px;
-  background: #eee;
-  border-bottom: 1px solid var(--border-color);
 `;
