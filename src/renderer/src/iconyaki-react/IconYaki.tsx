@@ -14,10 +14,8 @@ export interface IconProps {
 const withIconYaki = ({ iconStr, viewBox }: IconYakiProps) => {
   return function Icon({ size, className = "iconyaki", role = "iconyaki", ...rest }: IconProps) {
     return (
-      <span className={styles.iconyaki} {...rest}>
+      <span role={role} className={`${styles.iconyaki} ${className}`} {...rest}>
         <svg
-          role={role}
-          className={className}
           viewBox={viewBox}
           style={{ fontSize: size }}
           strokeWidth={0}
