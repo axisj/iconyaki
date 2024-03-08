@@ -8,6 +8,7 @@ import { SMixinFlexRow } from "../styles/emotion";
 import { IconSettingsVertical } from "./icon";
 import { SettingDrawer } from "./SettingDrawer";
 import { useAppStore } from "../store/useAppStore";
+import pkg from "../../../../package.json";
 
 interface Props {}
 
@@ -72,6 +73,7 @@ export function Header({}: Props) {
         <div style={{ flex: 1 }}>
           <Menu mode={"horizontal"} items={itmes} selectedKeys={selectedKeys} onClick={onClick} />
         </div>
+        <span style={{fontSize: 13}}>IconYaki {pkg.version}</span>
         <ConfigHandle onClick={() => setOpenSettings(!openSettings)}>
           <IconSettingsVertical />
         </ConfigHandle>
