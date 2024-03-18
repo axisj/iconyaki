@@ -6,15 +6,25 @@ import { useIconsData } from "../../hooks/useIconsData";
 import service from "../../service";
 import { IconBin } from "../../components/icon";
 import Icon from "../../iconyaki-react/IconYaki";
-import { Button, Form, Popconfirm, Select, Space } from "antd";
+import {Button, Form, Input, message, Popconfirm, Select, Space} from "antd";
 import electronAPI from "../../util/electronAPI";
-import { useEffect } from "react";
+import {useCallback, useEffect} from "react";
 
 interface Props {}
 
+function printPath(path: string) {
+  const paths = path.split("/");
+  if(paths.length < 4) {
+    return path;
+  }
+  return `${paths[0]}/${paths[1]}/.../${paths[paths.length - 2]}/${paths[paths.length - 1]}`;
+}
+
 export default function App({}: Props) {
+  const [messageApi, messageContext] = message.useMessage()
   const currentProject = useAppStore((s) => s.currentProject);
   const projects = useAppStore((s) => s.projects);
+  const setProjects = useAppStore((s) => s.setProjects);
   const setCurrentProject = useAppStore((s) => s.setCurrentProject);
 
   const [form] = Form.useForm();
@@ -37,22 +47,45 @@ export default function App({}: Props) {
     [currentProject, getIcons]
   );
 
-  const handleExport = React.useCallback(async () => {
+  const handleSync = React.useCallback(async () => {
     if (!currentProject) return;
     try {
-      const path = await electronAPI.openFolder();
+      if(currentProject.folder === undefined) {
+        await messageApi.error("프로젝트 폴더를 선택해주세요.");
+        return;
+      }
       await service.exportReactIcons({
         projectName: currentProject.value,
-        targetPath: path
+        targetPath: currentProject.folder
       });
-      electronAPI.openPath(path);
+
+      await messageApi.success(`Exported to "${currentProject.folder}"`);
     } catch (e: any) {
       //
     }
-  }, [currentProject]);
+  }, [currentProject, messageApi]);
+
+  const setProjectFolder = useCallback(async () => {
+      try {
+        if(!currentProject) return;
+        const path = await electronAPI.openFolder();
+        currentProject.folder = path;
+        projects?.forEach((project) => {
+          if (project.value === currentProject?.value) {
+            project.folder = path;
+          }
+        });
+        setProjects([...projects ?? []]);
+        setCurrentProject(currentProject.value);
+      } catch (err) {
+        //
+      }
+  }, [currentProject, projects, setCurrentProject, setProjects]);
+
 
   return (
     <Container>
+      {messageContext}
       <Toolbar>
         <div>
           <Form form={form} layout={"inline"}>
@@ -69,7 +102,9 @@ export default function App({}: Props) {
           </Form>
         </div>
         <Space>
-          <Button type={"primary"} onClick={handleExport} disabled={!currentProject}>
+          <Button
+            onClick={setProjectFolder}>{currentProject?.folder ? printPath(currentProject.folder) : "Select a path"}</Button>
+          <Button type={"primary"} onClick={handleSync} disabled={!currentProject}>
             Export
           </Button>
         </Space>

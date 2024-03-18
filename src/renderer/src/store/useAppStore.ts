@@ -7,6 +7,7 @@ interface Project {
   label: string;
   value: string;
   prefix: string;
+  folder?: string;
 }
 
 export interface AppModel {
