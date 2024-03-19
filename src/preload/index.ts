@@ -28,7 +28,10 @@ if (process.contextIsolated) {
       },
       openPath: async (path) => {
         await ipcRenderer.invoke("shell:openPath", path);
-      }
+      },
+      getReactIcons: async (targetPath) => {
+        return await ipcRenderer.invoke("fn:getReactIcons", targetPath);
+      },
     } as IElectronAPI);
   } catch (error) {
     console.error(error);

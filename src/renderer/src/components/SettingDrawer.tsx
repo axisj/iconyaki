@@ -1,7 +1,7 @@
 import * as React from "react";
 import styled from "@emotion/styled";
 import { Button, Divider, Drawer, Empty, Form, Input, Popconfirm } from "antd";
-import { useAppStore } from "../store/useAppStore";
+import {Project, useAppStore} from "../store/useAppStore";
 import { IconBin } from "./icon";
 import { SMixinFlexColumn, SMixinFlexRow } from "../styles/emotion";
 import { alertDialog } from "./dialogs";
@@ -57,17 +57,32 @@ export function SettingDrawer({}: Props) {
     [currentProject, projects, setCurrentProject, setProjects]
   );
 
+  const saveProjectInfo = React.useCallback((project: Project) => {
+    setProjects(
+      (projects ?? []).map((p) => {
+        if (p.value === project.value) {
+          return project;
+        }
+        return p;
+      })
+    );
+  }, [projects, setProjects]);
+
   return (
     <Drawer
-      title={`Settings`}
+      title={`Project Settings`}
       placement="right"
       onClose={() => {
         setOpenSettings(false);
       }}
       open={openSettings}
+      width={400}
+      styles={{
+        body: {
+          padding: "12px 20px"
+        }
+      }}
     >
-      <LegendForm>
-        <legend>Projects</legend>
         <NewProject>
           <Form form={form} layout={"vertical"} onFinish={handleAdd}>
             <Form.Item label={"Project Name"} name={"project"} rules={[{ required: true }]}>
@@ -87,10 +102,14 @@ export function SettingDrawer({}: Props) {
         <ProjectList>
           {projects?.map((project) => {
             return (
-              <Project key={project.value}>
-                <b>
-                  {project.label} / {project.prefix}
-                </b>
+              <ProjectItem key={project.value}>
+                <Input value={project.value} disabled />
+                <Input value={project.prefix} onChange={e => {
+                  saveProjectInfo({
+                    ...project,
+                    prefix: e.target.value
+                  });
+                }} />
 
                 <Popconfirm
                   title={"Are sure want delete?"}
@@ -100,7 +119,7 @@ export function SettingDrawer({}: Props) {
                     <IconBin />
                   </Button>
                 </Popconfirm>
-              </Project>
+              </ProjectItem>
             );
           })}
 
@@ -111,7 +130,7 @@ export function SettingDrawer({}: Props) {
             />
           )}
         </ProjectList>
-      </LegendForm>
+
     </Drawer>
   );
 }
@@ -120,12 +139,13 @@ const ProjectList = styled.div`
   ${SMixinFlexColumn("flex-start", "stretch")};
   gap: 6px;
 `;
-const Project = styled.div`
+const ProjectItem = styled.div`
   border: 1px solid var(--border-color);
-  padding: 4px 6px;
+  padding: 6px;
   border-radius: 6px;
 
   ${SMixinFlexRow("stretch", "center")};
+  gap: 6px;
   b {
     flex: 1;
     padding-left: 6px;

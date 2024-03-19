@@ -2,6 +2,7 @@ import { app, BrowserWindow, ipcMain, shell } from "electron";
 import { join } from "path";
 import { electronApp, is, optimizer } from "@electron-toolkit/utils";
 import icon from "../../resources/icon.png?asset";
+import getReactIcons from "./controller/getReactIcons";
 import openFolderDialog from "./controller/openFolderDialog";
 import parseXml2Json from "./controller/parseXml2Json";
 import parseJson2Xml from "./controller/parseJson2Xml";
@@ -70,6 +71,9 @@ app.whenReady().then(() => {
   });
   ipcMain.handle("shell:openPath", async (_event, path) => {
     return await shellOpenPath(path);
+  });
+  ipcMain.handle("fn:getReactIcons", async (_event, targetPath) => {
+    return await getReactIcons(targetPath);
   });
 
   createWindow();

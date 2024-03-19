@@ -3,7 +3,7 @@ import { persist } from "zustand/middleware";
 import { Config, StoreActions } from "../types";
 import { getPersistSerializer } from "./getPersistSerializer";
 
-interface Project {
+export interface Project {
   label: string;
   value: string;
   prefix: string;

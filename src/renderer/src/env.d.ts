@@ -8,6 +8,7 @@ export interface IElectronAPI {
   parseXml2Json: (xml: string) => Promise<Record<string, any>>;
   parseJson2Xml: (json: Record<string, any>) => Promise<string>;
   exportReactIcons: (icons: IconyakiIcon[], targetPath: string) => Promise<void>;
+  getReactIcons: (targetPath: string) => Promise<IconyakiIcon[]>;
   openPath: (path: string) => Promise<void>;
 }
 

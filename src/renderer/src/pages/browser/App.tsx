@@ -47,7 +47,7 @@ export default function App({}: Props) {
     [currentProject, getIcons]
   );
 
-  const handleSync = React.useCallback(async () => {
+  const handleExport = React.useCallback(async () => {
     if (!currentProject) return;
     try {
       if(currentProject.folder === undefined) {
@@ -64,6 +64,29 @@ export default function App({}: Props) {
       //
     }
   }, [currentProject, messageApi]);
+
+  const handleSync = React.useCallback(async () => {
+    if (!currentProject) return;
+    try {
+      if(currentProject.folder === undefined) {
+        await messageApi.error("프로젝트 폴더를 선택해주세요.");
+        return;
+      }
+      const icons= await service.loadIcons({
+        targetPath: currentProject.folder
+      });
+
+      await service.saveIcons({
+        projectName: currentProject.value,
+        icons
+      });
+      await getIcons();
+
+      await messageApi.success(`Loaded to "${currentProject.folder}"`);
+    } catch (e: any) {
+      //
+    }
+  }, [currentProject, getIcons, messageApi]);
 
   const setProjectFolder = useCallback(async () => {
       try {
@@ -104,7 +127,10 @@ export default function App({}: Props) {
         <Space>
           <Button
             onClick={setProjectFolder}>{currentProject?.folder ? printPath(currentProject.folder) : "Select a path"}</Button>
-          <Button type={"primary"} onClick={handleSync} disabled={!currentProject}>
+          <Button onClick={handleSync} disabled={!currentProject}>
+            Load
+          </Button>
+          <Button type={"primary"} onClick={handleExport} disabled={!currentProject}>
             Export
           </Button>
         </Space>
