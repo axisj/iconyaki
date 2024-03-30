@@ -1,10 +1,11 @@
-import { FileDto } from "../types";
-import { arrayBufferToString } from "../util/arrayBufferToString";
+import {FileDto} from "../types";
+import {arrayBufferToString} from "../util/arrayBufferToString";
 import electronAPI from "../util/electronAPI";
 
 export interface UploadFileProps {
   file: File;
 }
+
 export const uploadFile = async ({ file }: UploadFileProps) => {
   const buffer = await file.arrayBuffer();
   const xml = arrayBufferToString(buffer);
@@ -12,12 +13,13 @@ export const uploadFile = async ({ file }: UploadFileProps) => {
   const fileSize = file.size;
   const jsonContents = await electronAPI.parseXml2Json(xml);
 
-  const { $, metadata, title, desc, defs, ...rest } = jsonContents.svg;
+  const { $, metadata, title, desc, ...rest } = jsonContents.svg;
+
   const trimJson: Record<string, any> = {
     svg: {
       $: {
         xmlns: $.xmlns,
-        viewBox: $.viewBox
+        viewBox: $.viewBox,
       },
       ...rest
     }

@@ -1,16 +1,15 @@
-import * as React from "react";
-import { useEffect, useRef } from "react";
 import styled from "@emotion/styled";
-import { FileDto } from "../../types";
+import {Button, Form, InputRef, message, Select, Space} from "antd";
+import * as React from "react";
+import {useEffect, useRef} from "react";
+import {useNavigate} from "react-router-dom";
+import {LabelText, LabelTextGroup} from "../../components/LabelText";
 import service from "../../service";
-import { useAppStore } from "../../store/useAppStore";
-import { Alert, Button, Divider, Form, Input, InputRef, message, Select, Space } from "antd";
-import { SMixinFlexColumn, SMixinFlexRow } from "../../styles/emotion";
-import { dangerouslySetInnerHTML } from "../../util/dangerouslySetInnerHTML";
-import { toByte } from "../../util/toByte";
-import { LabelText, LabelTextGroup } from "../../components/LabelText";
-import { IconBin } from "../../components/icon";
-import { useNavigate } from "react-router-dom";
+import {useAppStore} from "../../store/useAppStore";
+import {SMixinFlexColumn, SMixinFlexRow} from "../../styles/emotion";
+import {FileDto} from "../../types";
+import {dangerouslySetInnerHTML} from "../../util/dangerouslySetInnerHTML";
+import {toByte} from "../../util/toByte";
 
 interface Props {
   accept?: string;
