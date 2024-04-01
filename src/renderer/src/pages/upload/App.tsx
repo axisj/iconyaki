@@ -1,15 +1,16 @@
+import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import {Button, Form, InputRef, message, Select, Space} from "antd";
+import { Button, Form, InputRef, message, Select, Space } from "antd";
 import * as React from "react";
-import {useEffect, useRef} from "react";
-import {useNavigate} from "react-router-dom";
-import {LabelText, LabelTextGroup} from "../../components/LabelText";
+import { useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import { LabelText, LabelTextGroup } from "../../components/LabelText";
 import service from "../../service";
-import {useAppStore} from "../../store/useAppStore";
-import {SMixinFlexColumn, SMixinFlexRow} from "../../styles/emotion";
-import {FileDto} from "../../types";
-import {dangerouslySetInnerHTML} from "../../util/dangerouslySetInnerHTML";
-import {toByte} from "../../util/toByte";
+import { useAppStore } from "../../store/useAppStore";
+import { SMixinFlexColumn, SMixinFlexRow } from "../../styles/emotion";
+import { FileDto } from "../../types";
+import { dangerouslySetInnerHTML } from "../../util/dangerouslySetInnerHTML";
+import { toByte } from "../../util/toByte";
 
 interface Props {
   accept?: string;
@@ -21,33 +22,37 @@ export default function App({ accept = "image/svg+xml" }: Props) {
   const currentProject = useAppStore((s) => s.currentProject);
   const setCurrentProject = useAppStore((s) => s.setCurrentProject);
   const projects = useAppStore((s) => s.projects);
-  const setProjects = useAppStore((s) => s.setProjects);
   const [spinning, setSpinning] = React.useState(false);
   const [progress, setProgress] = React.useState(0);
   const [uploadedFiles, setUploadedFiles] = React.useState<FileDto[]>([]);
   const [uploading, setUploading] = React.useState(false);
-  const [name, setName] = React.useState("");
-  const [openSelect, setOpenSelect] = React.useState(false);
+  const [activeDrop, setActiveDrop] = React.useState(false);
 
   const inputRef = React.useRef<HTMLInputElement>(null);
-  const addProjectRef = useRef<InputRef>(null);
   const abortController = React.useRef(new AbortController()).current;
 
   const [form] = Form.useForm();
 
   const onChange = React.useCallback(
-    async (event: React.ChangeEvent<HTMLInputElement>) => {
-      if (!event.target.files) return;
-
+    async (event: React.ChangeEvent<HTMLInputElement> | any) => {
       const uploadFiles: FileDto[] = [];
+      let selectFiles: File[] = [];
+
+      if (event.type === "drop") {
+        selectFiles = event.dataTransfer.files;
+      } else {
+        selectFiles = event.target.files;
+      }
+
+      if (selectFiles.length < 1) return;
 
       try {
         setSpinning(true);
 
-        const uploadFileCount = event.target.files.length;
+        const uploadFileCount = selectFiles.length;
 
         for (let i = 0; i < uploadFileCount; i++) {
-          const file = event.target.files[i];
+          const file = selectFiles[i];
           const data = await service.uploadFile({
             file
           });
@@ -104,6 +109,32 @@ export default function App({ accept = "image/svg+xml" }: Props) {
     }
   }, [currentProject, messageApi, navigate, uploadedFiles]);
 
+  const onDrop = React.useCallback(
+    async (e: React.DragEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      await onChange(e);
+      setActiveDrop(false);
+    },
+    [onChange]
+  );
+  const onDragEnter = React.useCallback(async (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+  }, []);
+  const onDragLeave = React.useCallback(async (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setActiveDrop(false);
+  }, []);
+  const onDragOver = React.useCallback(async (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.dataTransfer!.files) {
+      setActiveDrop(true);
+    }
+  }, []);
+
   useEffect(() => {
     form.setFieldsValue({
       project: currentProject?.value
@@ -111,7 +142,12 @@ export default function App({ accept = "image/svg+xml" }: Props) {
   }, [currentProject?.value, form]);
 
   return (
-    <Container>
+    <Container
+      onDrop={onDrop}
+      onDragEnter={onDragEnter}
+      onDragLeave={onDragLeave}
+      onDragOver={onDragOver}
+    >
       {contextHolder}
 
       <input
@@ -123,7 +159,8 @@ export default function App({ accept = "image/svg+xml" }: Props) {
         style={{ display: "none" }}
       />
 
-      <FileListWrap>
+      <FileListWrap activeDrop={activeDrop}>
+        {uploadedFiles.length === 0 && <DragHere>Drag the file here.</DragHere>}
         <FileList>
           {uploadedFiles.map((file, key) => (
             <UploadedFile key={key}>
@@ -202,11 +239,22 @@ const Container = styled.div`
   overflow: hidden;
 `;
 
-const FileListWrap = styled.div`
+const FileListWrap = styled.div<{ activeDrop: boolean }>`
   flex: 1;
   overflow: auto;
   background: #eee;
   padding: 8px;
+  position: relative;
+
+  ${({ activeDrop }) => {
+    if (activeDrop) {
+      return css`
+        background: #ccc;
+        border: 3px dashed #888;
+        transition: 0.3s all;
+      `;
+    }
+  }}
 `;
 
 const Toolbar = styled.div`
@@ -250,19 +298,8 @@ const MetaInfos = styled(LabelTextGroup)`
   flex-wrap: wrap;
 `;
 
-const ProjectItem = styled.div`
-  ${SMixinFlexRow("stretch", "center")};
-  padding: 5px 8px;
-  border-radius: 5px;
-  margin: 5px;
-  cursor: pointer;
-  a {
-    display: block;
-    flex: 1;
-    cursor: pointer;
-    color: var(--txt-body);
-    &:hover {
-      color: var(--txt-link-hover);
-    }
-  }
+const DragHere = styled.div`
+  height: 100%;
+  flex: 1;
+  ${SMixinFlexColumn("center", "center")};
 `;

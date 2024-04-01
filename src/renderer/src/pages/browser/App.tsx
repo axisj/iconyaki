@@ -6,7 +6,7 @@ import { useIconsData } from "../../hooks/useIconsData";
 import service from "../../service";
 import { IconBin } from "../../components/icon";
 import Icon from "../../iconyaki-react/IconYaki";
-import {Button, Form, Input, message, Popconfirm, Select, Space} from "antd";
+import {Button, Divider, Form, Input, message, Popconfirm, Select, Space} from "antd";
 import electronAPI from "../../util/electronAPI";
 import {useCallback, useEffect} from "react";
 
@@ -124,16 +124,7 @@ export default function App({}: Props) {
             </Form.Item>
           </Form>
         </div>
-        <Space>
-          <Button
-            onClick={setProjectFolder}>{currentProject?.folder ? printPath(currentProject.folder) : "Select a path"}</Button>
-          <Button onClick={handleSync} disabled={!currentProject}>
-            Load
-          </Button>
-          <Button type={"primary"} onClick={handleExport} disabled={!currentProject}>
-            Export
-          </Button>
-        </Space>
+
       </Toolbar>
       <IconCardWrap>
         <IconList>
@@ -163,6 +154,37 @@ export default function App({}: Props) {
           })}
         </IconList>
       </IconCardWrap>
+      <Toolbar>
+        <Space>
+
+
+
+          <Form layout={"inline"} colon={false}>
+            <Form.Item label={<Space>Icon Source Folder
+              <Button size={"small"} onClick={setProjectFolder}>Select</Button>
+            </Space>}>
+              <Input value={printPath(currentProject?.folder ?? "")} readOnly style={{width: 300}} />
+            </Form.Item>
+            <Form.Item>
+              <Divider type={"vertical"} />
+            </Form.Item>
+            <Form.Item>
+              <Space>
+                <Button onClick={handleSync} disabled={!currentProject}>
+                  Load Icon
+                </Button>
+                <Button type={"primary"} onClick={handleExport} disabled={!currentProject}>
+                  Export Icon
+                </Button>
+              </Space>
+            </Form.Item>
+          </Form>
+
+
+
+
+        </Space>
+      </Toolbar>
     </Container>
   );
 }
@@ -174,10 +196,12 @@ const Container = styled.div`
 `;
 
 const IconCardWrap = styled.div`
-  overflow: auto;
+  overflow: scroll;
   flex: 1;
   background: #eee;
   padding: 8px;
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
 `;
 const IconList = styled.div`
   display: grid;
@@ -217,9 +241,9 @@ const IconCard = styled.div`
 const IconWrap = styled.div`
   ${SMixinFlexColumn("center", "center")};
   padding: 16px;
-  border-bottom: 1px solid var(--border-color);
   font-size: 30px;
   flex: 1;
+  border-bottom: 1px solid var(--border-color);
 `;
 const IconMeta = styled.div`
   ${SMixinFlexColumn("center", "center")};
@@ -233,5 +257,4 @@ const Toolbar = styled.div`
   flex: none;
   padding: 8px;
   background: #eee;
-  border-bottom: 1px solid var(--border-color);
 `;
