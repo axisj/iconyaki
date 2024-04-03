@@ -28,7 +28,7 @@ You can manage icons by creating multiple projects for frontend developers with 
 ## How to Use iconyaki
 
 ### 1. Download iconyaki app
-
+https://github.com/axisj/iconyaki/releases
 
 ### 2. Enter the Project Name
 
