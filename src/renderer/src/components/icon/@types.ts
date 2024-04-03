@@ -3,7 +3,8 @@ export interface IconyakiIcon {
   fileName: string;
   componentName: string;
   tags: string[];
-  rawFileContents: string;
+  viewBox: string;
+  svgBody: string;
 }
 
 export interface IconyakiData {

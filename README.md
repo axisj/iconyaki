@@ -6,6 +6,25 @@
 
 Introducing 'iconyaki,' a tool designed to provide frontend developers with the optimal icon transformation experience. 'iconyaki' offers a seamless and diverse range of icon conversion functionalities to quickly integrate visual elements into your projects.
 
+
+## Features
+IconYaki is an Electron application that allows for easy management of vector icons in React projects.
+The app's key features include:
+- Converting vector (svg) files into React components
+- Exporting and importing React components to and from the project's icon target folder
+- Testing color and size changes for registered icons
+- Finding icons
+
+## Screenshots
+### Browsing Icons
+![iconyaki-browsing.png](..%2F..%2F..%2FDesktop%2Fcaptures%2Ficonyaki-browsing.png)
+You can test the converted React icons by changing the color, background color, and size of the registered icons.
+
+
+### Managing Icons
+![iconyaki-project-setting.png](..%2F..%2F..%2FDesktop%2Fcaptures%2Ficonyaki-project-setting.png)
+You can manage icons by creating multiple projects for frontend developers with busy schedules.
+
 ## How to Use iconyaki
 
 ### 1. Download iconyaki app

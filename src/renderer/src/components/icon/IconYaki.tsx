@@ -3,22 +3,19 @@ import styles from "./iconyaki.module.css";
 interface IconYakiProps {
   iconStr: string;
   viewBox: string;
-  role?: string;
 }
 
 export interface IconProps {
   size?: number;
   className?: string;
-  onClick?: () => void;
+  role?: string;
 }
 
-const withIconYaki = ({ iconStr, viewBox, role = "iconyaki" }: IconYakiProps) => {
-  return function Icon({ size, className, ...rest }: IconProps) {
+const withIconYaki = ({ iconStr, viewBox }: IconYakiProps) => {
+  return function Icon({ size, className = "iconyaki", role = "iconyaki", ...rest }: IconProps) {
     return (
-      <span className={styles.iconyaki} {...rest}>
+      <span role={role} className={`${styles.iconyaki} ${className}`} {...rest}>
         <svg
-          role={role}
-          className={className}
           viewBox={viewBox}
           style={{ fontSize: size }}
           strokeWidth={0}
