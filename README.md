@@ -17,12 +17,12 @@ The app's key features include:
 
 ## Screenshots
 ### Browsing Icons
-![iconyaki-browsing.png](..%2F..%2F..%2FDesktop%2Fcaptures%2Ficonyaki-browsing.png)
+![iconyaki-browsing.png](resources%2Ficonyaki-browsing.png)
 You can test the converted React icons by changing the color, background color, and size of the registered icons.
 
 
 ### Managing Icons
-![iconyaki-project-setting.png](..%2F..%2F..%2FDesktop%2Fcaptures%2Ficonyaki-project-setting.png)
+![iconyaki-project-setting.png](resources%2Ficonyaki-project-setting.png)
 You can manage icons by creating multiple projects for frontend developers with busy schedules.
 
 ## How to Use iconyaki
