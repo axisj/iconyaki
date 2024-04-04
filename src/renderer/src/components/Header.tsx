@@ -73,8 +73,8 @@ export function Header({}: Props) {
         <div style={{ flex: 1 }}>
           <Menu mode={"horizontal"} items={itmes} selectedKeys={selectedKeys} onClick={onClick} />
         </div>
-        <span style={{fontSize: 13}}>IconYaki {pkg.version}</span>
         <ConfigHandle onClick={() => setOpenSettings(!openSettings)}>
+          <span style={{ fontSize: 13 }}>IconYaki {pkg.version}</span>
           <IconSettingsVertical />
         </ConfigHandle>
       </Container>
@@ -86,15 +86,20 @@ export function Header({}: Props) {
 
 const Container = styled.div`
   user-select: none;
-  border-bottom: 1px solid var(--border-color);
-  ${SMixinFlexRow("space-between", "center")};
+  ${SMixinFlexRow("space-between", "stretch")};
 `;
 
 const ConfigHandle = styled.div`
-  cursor: pointer;
+  ${SMixinFlexRow("center", "center")};
+  gap: 12px;
   padding: 8px 16px;
   color: var(--txt-body);
-  &:hover {
-    color: var(--txt-link-hover);
+  border-bottom: 1px solid var(--border-color);
+
+  [role="iconyaki"] {
+    cursor: pointer;
+    &:hover {
+      color: var(--txt-link-hover);
+    }
   }
 `;

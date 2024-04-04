@@ -126,5 +126,5 @@ const Div = styled.div`
   ${SMixinFlexRow("space-between", "center")};
   flex: none;
   padding: 8px;
-  background: #eee;
+  background: #fff;
 `;
