@@ -31,3 +31,4 @@ export { default as IconTopPane } from "./files/IconTopPane";
 export { default as IconUserCircle } from "./files/IconUserCircle";
 export { default as IconViewfinder } from "./files/IconViewfinder";
 export { default as IconApiSync } from "./files/IconApiSync";
+export { default as IconWarning } from "./files/IconWarning";
