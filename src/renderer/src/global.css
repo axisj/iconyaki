@@ -25,8 +25,9 @@
     --txt-body: #606060;
     --txt-display: #000;
     --txt-link-hover: #0167e3;
-    --border-color: rgba(0, 0, 0, 0.08);
+    --border-color: #CBCDD1;
 
+    --toobar-bg: #f1f3f4;
 
     --transition: 0.1s ease-in-out;
     --transition-slow: 0.3s ease-in-out;

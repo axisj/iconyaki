@@ -92,10 +92,7 @@ export function BrowserIconList({ filter, icons, getIcons, loading }: Props) {
 const Div = styled.div`
   overflow: auto;
   flex: 1;
-  background: #eee;
   padding: 8px;
-  border-top: 1px solid var(--border-color);
-  border-bottom: 1px solid var(--border-color);
 `;
 const IconList = styled.div`
   display: grid;
@@ -158,7 +155,7 @@ const IconMeta = styled.div`
   }
 
   flex: 1;
-  font-size: 13px;
+  font-size: 12px;
   padding: 6px 12px;
   min-height: 36px;
   word-break: break-all;

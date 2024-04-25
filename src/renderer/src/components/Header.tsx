@@ -87,6 +87,12 @@ export function Header({}: Props) {
 const Container = styled.div`
   user-select: none;
   ${SMixinFlexRow("space-between", "stretch")};
+  background: var(--toobar-bg);
+
+  .ant-menu {
+    background: var(--toobar-bg);
+    border-bottom: 1px solid var(--border-color);
+  }
 `;
 
 const ConfigHandle = styled.div`

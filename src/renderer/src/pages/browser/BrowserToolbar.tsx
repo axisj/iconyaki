@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import { Button, Divider, Form, Input, message, Space } from "antd";
 import { useCallback } from "react";
 import * as React from "react";
+import { IconFolders } from "../../components/icon";
 import { useIconsData } from "../../hooks/useIconsData";
 import service from "../../service";
 import { useAppStore } from "../../store/useAppStore";
@@ -94,24 +95,31 @@ export function BrowserToolbar({ getIcons }: Props) {
       {messageContext}
       <Space>
         <Form form={form} layout={"inline"} colon={false}>
-          <Form.Item label={"Path"}>
+          <Form.Item label={"Project Path"}>
             <Input
+              size={"small"}
               value={printPath(currentProject?.folder ?? "")}
               readOnly
               style={{ width: 400, cursor: "pointer" }}
               placeholder={"Load & Import target path"}
               onClick={setProjectFolder}
+              prefix={<IconFolders />}
             />
           </Form.Item>
           <Form.Item>
-            <Divider type={"vertical"} />
+            <Divider type={"vertical"} style={{ margin: 0 }} />
           </Form.Item>
           <Form.Item>
             <Space>
-              <Button onClick={handleSync} disabled={!currentProject}>
+              <Button size={"small"} onClick={handleSync} disabled={!currentProject}>
                 Load Icon
               </Button>
-              <Button type={"primary"} onClick={handleExport} disabled={!currentProject}>
+              <Button
+                size={"small"}
+                type={"primary"}
+                onClick={handleExport}
+                disabled={!currentProject}
+              >
                 Export Icon
               </Button>
             </Space>
@@ -124,7 +132,8 @@ export function BrowserToolbar({ getIcons }: Props) {
 
 const Div = styled.div`
   ${SMixinFlexRow("space-between", "center")};
+  border-top: 1px solid var(--border-color);
   flex: none;
-  padding: 8px;
-  background: #fff;
+  padding: 3px 8px;
+  background: var(--toobar-bg);
 `;

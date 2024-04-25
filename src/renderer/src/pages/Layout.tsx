@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { ConfigProvider } from "antd";
 import { Suspense } from "react";
 import { Outlet } from "react-router-dom";
 import { Header } from "../components/Header";
@@ -10,10 +11,21 @@ interface Props {}
 export function Layout({}: Props) {
   return (
     <Container>
-      <Header />
-      <Suspense>
-        <Outlet />
-      </Suspense>
+      <ConfigProvider
+        theme={{
+          token: {
+            fontSize: 13,
+            controlHeightSM: 25,
+            borderRadius: 4
+          },
+          components: {}
+        }}
+      >
+        <Header />
+        <Suspense>
+          <Outlet />
+        </Suspense>
+      </ConfigProvider>
     </Container>
   );
 }

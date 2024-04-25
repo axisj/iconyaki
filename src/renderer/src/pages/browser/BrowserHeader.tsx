@@ -1,8 +1,8 @@
 import styled from "@emotion/styled";
-import { ColorPicker, Form, Input, InputNumber, message, Select } from "antd";
+import { Col, ColorPicker, Form, Input, InputNumber, message, Row, Select } from "antd";
 import * as React from "react";
 import { useAppStore } from "../../store/useAppStore";
-import { SMixinFlexRow } from "../../styles/emotion";
+import { SMixinFlexColumn, SMixinFlexRow } from "../../styles/emotion";
 
 interface Props {
   filter: string;
@@ -28,7 +28,7 @@ export function BrowserHeader({ filter, setFilter, getIcons }: Props) {
   return (
     <Div>
       {messageContext}
-      <Form form={form} layout={"inline"} colon={false}>
+      <Form form={form} layout={"vertical"} colon={false}>
         <Form.Item label={"Project"}>
           <Select
             options={projects ?? []}
@@ -45,14 +45,26 @@ export function BrowserHeader({ filter, setFilter, getIcons }: Props) {
             onChange={(value) => setIconSize(value ?? 24)}
             max={200}
             min={8}
+            style={{ width: "100%" }}
           />
         </Form.Item>
-        <Form.Item label={"Color"}>
-          <ColorPicker value={iconColor} onChange={(v, hex) => setIconColor(hex)} showText />
-        </Form.Item>
-        <Form.Item label={"BgColor"}>
-          <ColorPicker value={iconBgColor} onChange={(v, hex) => setIconBgColor(hex)} showText />
-        </Form.Item>
+        <Row gutter={12}>
+          <Col span={12}>
+            <Form.Item label={"Color"}>
+              <ColorPicker value={iconColor} onChange={(v, hex) => setIconColor(hex)} showText />
+            </Form.Item>
+          </Col>
+          <Col span={12}>
+            <Form.Item label={"BgColor"}>
+              <ColorPicker
+                value={iconBgColor}
+                onChange={(v, hex) => setIconBgColor(hex)}
+                showText
+              />
+            </Form.Item>
+          </Col>
+        </Row>
+
         <Form.Item label={"Filter"}>
           <Input
             value={filter}
@@ -67,10 +79,12 @@ export function BrowserHeader({ filter, setFilter, getIcons }: Props) {
 }
 
 const Div = styled.div`
-  ${SMixinFlexRow("space-between", "center")};
+  ${SMixinFlexColumn("space-between", "stretch")};
   flex: none;
-  padding: 8px;
-  background: #fff;
+  padding: 16px 10px;
+  width: 250px;
+
+  border-right: 1px solid var(--border-color);
 
   label {
   }
