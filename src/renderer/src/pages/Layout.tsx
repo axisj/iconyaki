@@ -14,6 +14,7 @@ export function Layout({}: Props) {
       <ConfigProvider
         theme={{
           token: {
+            fontFamily: "system-ui",
             fontSize: 13,
             controlHeightSM: 25,
             borderRadius: 4

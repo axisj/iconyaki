@@ -65,9 +65,7 @@ export function BrowserIconList({ filter, icons, getIcons, loading }: Props) {
                     </a>
                   </Popconfirm>
                 </div>
-                <IconWrap size={iconSize} color={iconColor} bgcolor={iconBgColor}>
-                  <IconPreview />
-                </IconWrap>
+
                 <IconMeta onClick={() => copyToClipboard(icon.componentName)}>
                   <span
                     {...dangerouslySetInnerHTML(
@@ -81,6 +79,9 @@ export function BrowserIconList({ filter, icons, getIcons, loading }: Props) {
                     <IconCopy />
                   </div>
                 </IconMeta>
+                <IconWrap size={iconSize} color={iconColor} bgcolor={iconBgColor}>
+                  <IconPreview />
+                </IconWrap>
               </IconCard>
             );
           })}
@@ -97,20 +98,20 @@ const Div = styled.div`
 const IconList = styled.div`
   display: grid;
   gap: 8px;
-  grid-template-columns: repeat(auto-fill, minmax(165px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
 `;
 
 const IconCard = styled.div`
   ${SMixinFlexColumn("flex-start", "stretch")};
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  border: 1px solid #e2e5e7;
+  border-radius: 4px;
   background: #fff;
   overflow: hidden;
   position: relative;
 
   .tools {
     position: absolute;
-    top: 5px;
+    bottom: 7px;
     right: 5px;
     padding: 5px;
     display: none;
@@ -135,7 +136,6 @@ const IconCard = styled.div`
 const IconWrap = styled.div<{ size?: number; color?: string; bgcolor?: string }>`
   ${SMixinFlexColumn("center", "center")};
   padding: 16px;
-  border-bottom: 1px solid var(--border-color);
   ${({ size = 24, color = "#1677ff", bgcolor = "#ffffff" }) => {
     return css`
       font-size: ${size}px;
@@ -145,7 +145,7 @@ const IconWrap = styled.div<{ size?: number; color?: string; bgcolor?: string }>
   }}
 `;
 const IconMeta = styled.div`
-  ${SMixinFlexRow("center", "center")};
+  ${SMixinFlexRow("flex-start", "center")};
   background: #f9fbff;
   position: relative;
   cursor: pointer;
@@ -155,13 +155,9 @@ const IconMeta = styled.div`
   }
 
   flex: 1;
-  font-size: 12px;
-  padding: 6px 12px;
+  font-size: 13px;
+  font-family: system-ui;
+  padding: 3px 8px;
   min-height: 36px;
   word-break: break-all;
-  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
-
-  u {
-    color: var(--red);
-  }
 `;
