@@ -1,3 +1,4 @@
+import React from "react";
 import styles from "./iconyaki.module.css";
 
 interface IconYakiProps {
@@ -8,6 +9,7 @@ interface IconYakiProps {
 export interface IconProps {
   size?: number;
   className?: string;
+  style?: React.CSSProperties;
   role?: string;
 }
 
