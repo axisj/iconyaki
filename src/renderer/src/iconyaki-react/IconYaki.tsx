@@ -11,6 +11,14 @@ export interface IconProps {
   className?: string;
   style?: React.CSSProperties;
   role?: string;
+  onClick?: React.MouseEventHandler<HTMLSpanElement>;
+  onMouseDown?: React.MouseEventHandler<HTMLSpanElement>;
+  onMouseUp?: React.MouseEventHandler<HTMLSpanElement>;
+  onMouseEnter?: React.MouseEventHandler<HTMLSpanElement>;
+  onMouseLeave?: React.MouseEventHandler<HTMLSpanElement>;
+  onMouseMove?: React.MouseEventHandler<HTMLSpanElement>;
+  onMouseOut?: React.MouseEventHandler<HTMLSpanElement>;
+  onMouseOver?: React.MouseEventHandler<HTMLSpanElement>;
 }
 
 const withIconYaki = ({ iconStr, viewBox }: IconYakiProps) => {
